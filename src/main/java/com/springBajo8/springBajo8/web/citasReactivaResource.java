@@ -1,8 +1,12 @@
 package com.springBajo8.springBajo8.web;
 
-
 import com.springBajo8.springBajo8.domain.citasDTOReactiva;
 import com.springBajo8.springBajo8.service.IcitasReactivaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +42,18 @@ public class citasReactivaResource {
 
     }
 
+    /*
+    Documentacion con swagger 3.0
+     */
+    @Operation(summary = "Get a citas by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the cita",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = citasDTOReactiva.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Cita not found",
+                    content = @Content) })
     @GetMapping("/citasReactivas/{idPaciente}/byidPaciente")
     private Flux<citasDTOReactiva> findAllByidPaciente(@PathVariable("idPaciente") String idPaciente) {
         return this.icitasReactivaService.findByIdPaciente(idPaciente);
